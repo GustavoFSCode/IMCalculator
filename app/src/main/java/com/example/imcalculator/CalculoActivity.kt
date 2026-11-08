@@ -46,6 +46,12 @@ class CalculoActivity : AppCompatActivity() {
             val intent = Intent(this, ResultadoActivity::class.java)
             intent.putExtra("IMC", imc)
             startActivity(intent)
+            edtPeso.text.clear()
+            edtAltura.text.clear()
+            edtPeso.error = null
+            edtAltura.error = null
+            edtPeso.clearFocus()
+            edtAltura.clearFocus()
         }
     }
 }

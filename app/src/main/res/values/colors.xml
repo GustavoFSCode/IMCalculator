@@ -2,6 +2,8 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="orange">#EF6C00</color>
+    <color name="red">#D32F2F</color>
     <color name="button">#1BD550</color>
     <color name="background_gradient_top">#5AC8B9</color>
     <color name="background_gradient_bottom">#1BD550</color>
