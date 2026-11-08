@@ -29,7 +29,7 @@ class CalculoActivity : AppCompatActivity() {
             val pesoStr = edtPeso.text.toString().replace(",", ".")
             val peso = pesoStr.toDoubleOrNull()
 
-            if(peso == null || peso <= 0){
+            if(peso == null || !peso.isFinite() || peso <= 0){
                 edtPeso.error = "Digite um peso válido maior que zero"
                 return@setOnClickListener
             }
@@ -37,12 +37,15 @@ class CalculoActivity : AppCompatActivity() {
             val alturaStr = edtAltura.text.toString().replace(",", ".")
             val altura = alturaStr.toDoubleOrNull()
 
-            if(altura == null || altura <= 0){
+            if(altura == null || !altura.isFinite() || altura <= 0){
                 edtAltura.error = "Digite uma altura válida maior que zero"
                 return@setOnClickListener
             }
 
-            val imc = peso / (altura * altura)
+            val imc = runCatching { BmiCalculator.calculate(peso, altura) }.getOrElse {
+                edtAltura.error = "Confira o peso em kg e a altura em metros"
+                return@setOnClickListener
+            }
             val intent = Intent(this, ResultadoActivity::class.java)
             intent.putExtra("IMC", imc)
             startActivity(intent)

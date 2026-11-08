@@ -20,24 +20,29 @@ class ResultadoActivity : AppCompatActivity() {
         }
 
         val imc = intent.getDoubleExtra("IMC", 0.0)
+        if (!imc.isFinite() || imc <= 0) {
+            finish()
+            return
+        }
         val tvIMC = findViewById<TextView>(R.id.tvIMC)
         tvIMC.text = String.format("%.2f", imc)
 
         val tvCondition = findViewById<TextView>(R.id.tvCondition)
 
-        if (imc < 18.5) {
+        val category = BmiCalculator.classify(imc)
+        if (category == BmiCalculator.Category.UNDERWEIGHT) {
             tvCondition.text = "Abaixo do peso"
             tvCondition.setTextColor(getColor(R.color.button))
-        } else if (imc < 24.9) {
+        } else if (category == BmiCalculator.Category.NORMAL) {
             tvCondition.text = "Peso normal"
             tvCondition.setTextColor(getColor(R.color.button))
-        } else if (imc < 29.9) {
+        } else if (category == BmiCalculator.Category.OVERWEIGHT) {
             tvCondition.text = "Sobrepeso"
             tvCondition.setTextColor(getColor(R.color.orange))
-        } else if (imc < 34.9) {
+        } else if (category == BmiCalculator.Category.OBESITY_I) {
             tvCondition.text = "Obesidade Grau I"
             tvCondition.setTextColor(getColor(R.color.red))
-        } else if (imc < 39.9) {
+        } else if (category == BmiCalculator.Category.OBESITY_II) {
             tvCondition.text = "Obesidade Grau II"
             tvCondition.setTextColor(getColor(R.color.red))
         } else {
